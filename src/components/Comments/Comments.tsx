@@ -1,11 +1,22 @@
 import React from "react";
-import usePosts from "../../hooks/usePosts";
+import "./Comments.css";
+import useComments from "../../hooks/useComments";
 import { Vortex } from "react-loader-spinner";
 
-function Posts() {
-	let { posts: posts, error: error, loading: loading } = usePosts();
+interface ICommentsProps {
+	postId: number;
+}
+
+export default function Comments(props: ICommentsProps) {
+	const { postId } = props;
+	let {
+		comments: comments,
+		error: error,
+		loading: loading,
+	} = useComments(postId);
+	console.log(postId);
 	return (
-		<div>
+		<div className="Comments">
 			{error ? (
 				error
 			) : loading ? (
@@ -22,15 +33,15 @@ function Posts() {
 						"pink",
 						"pink",
 						"purple",
-                        "purple",
+						"purple",
 					]}
 				/>
 			) : (
-				posts?.map((value) => {
+				comments.map((value) => {
 					return (
 						<div key={value.id}>
-							<h1>{value.title}</h1>
-							<h3>{value.userId}</h3>
+							<h2>{value.name}</h2>
+							<h3>{value.email}</h3>
 							<p>{value.body}</p>
 							<hr />
 						</div>
@@ -40,5 +51,3 @@ function Posts() {
 		</div>
 	);
 }
-
-export default Posts;
